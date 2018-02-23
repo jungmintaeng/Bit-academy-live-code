@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class DateTest {
+	@SuppressWarnings("deprecation")
 	public static void main(String[] args) {
 		Date date = new Date();
 		System.out.println(date);
@@ -28,8 +29,10 @@ public class DateTest {
 		System.out.println(sdf.format(date));
 	}
 	
+	@SuppressWarnings("deprecation")
 	public static void printDate2(Date d) {
 		//년도 (+1900)
+		
 		int year = d.getYear();
 		
 		//월(0-11)
