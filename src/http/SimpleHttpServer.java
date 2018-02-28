@@ -43,7 +43,7 @@ public class SimpleHttpServer {
 				consoleLog("error:" + ex);
 			}
 		}
-	}
+	}                                                                                                                                      
 
 	public static void consoleLog(String message) {
 		System.out.println("[HttpServer#" + Thread.currentThread().getId()  + "] " + message);
