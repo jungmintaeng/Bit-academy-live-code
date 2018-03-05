@@ -6,6 +6,7 @@ import java.io.OutputStream;
 import java.net.ConnectException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.util.Scanner;
 
 public class TCPClient {
@@ -25,8 +26,32 @@ public class TCPClient {
 		try {
 			//1. 소켓 생성
 			socket = new Socket();
+			
+			//1-1. 소켓 타임아웃
+			socket.setSoTimeout(3 * 1000);
+			//1-2. Nagle 끄기 (SO_NODELAY)
+			socket.setTcpNoDelay(true);
+			//Nagle 켜기
+			//socket.setTcpNoDelay(false);
+			
 			//2. 서버 연결
 			socket.connect(new InetSocketAddress(SERVER_IP, SERVER_PORT));
+			
+			//2-2 Socket Buffer Size 확인
+			int receiveBufferSize = socket.getReceiveBufferSize();
+			int sendBufferSize = socket.getSendBufferSize();
+			
+			System.out.println("rec buf : " + receiveBufferSize + " , Send buf : " + sendBufferSize);
+			
+			//2-3 Socket Buffer Size 변경
+			socket.setReceiveBufferSize(1024 * 10);
+			socket.setSendBufferSize(1024 * 10);
+			
+			receiveBufferSize = socket.getReceiveBufferSize();
+			sendBufferSize = socket.getSendBufferSize();
+			
+			System.out.println("After setting > rec buf : " + receiveBufferSize + " , Send buf : " + sendBufferSize);
+			
 			//3. I/O Stream 받아오기
 			InputStream is = socket.getInputStream();
 			OutputStream os = socket.getOutputStream();
@@ -45,6 +70,8 @@ public class TCPClient {
 			System.out.println("[Client] received : " + data);
 		}catch(ConnectException e) {
 			e.printStackTrace();
+		}catch(SocketTimeoutException stoex) {
+			stoex.printStackTrace();
 		}catch(IOException e) {
 			e.printStackTrace();
 		}finally {
