@@ -60,7 +60,7 @@
 		</tr>
 		<tr>
 			<td colspan="4">
-			<%= vo.getContent() %>
+			<%= vo.getContent().replaceAll("\n", "<br/>") %>
 			</td>
 		</tr>
 			<% } %>

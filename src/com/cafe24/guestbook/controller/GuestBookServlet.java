@@ -1,7 +1,6 @@
 package com.cafe24.guestbook.controller;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,9 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.cafe24.guestbook.dao.GuestBookDao;
-import com.cafe24.guestbook.vo.GuestBookVo;
-import com.cafe24.mvc.util.WebUtil;
+import com.cafe24.guestbook.action.GuestBookActionFactory;
+import com.cafe24.mvc.action.Action;
 
 @WebServlet("/gb")
 public class GuestBookServlet extends HttpServlet {
@@ -24,13 +22,17 @@ public class GuestBookServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		
-		String action = request.getParameter("a");
+		String actionName = request.getParameter("a");
+		Action action = new GuestBookActionFactory().getAction(actionName);
+		action.execute(request, response);
+		
+		/* // 고치기 전 소스 - Servlet 클래스에서 액션을 분류하는 일, 액션을 수행하는 일 두 가지를 하고 있다.
 		if("deleteform".equals(action)) {
 			
 			WebUtil.forward(request, response, "/WEB-INF/views/deleteform.jsp");
 			
 		} else if ("add".equals(action)) {
-			
+		
 			String name = request.getParameter("name");
 			String password = request.getParameter("pass");
 			String content = request.getParameter("content");
@@ -82,7 +84,7 @@ public class GuestBookServlet extends HttpServlet {
 			request.setAttribute("list", vos);
 			
 			WebUtil.forward(request, response, "/WEB-INF/views/index.jsp");
-		}
+		}*/
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
