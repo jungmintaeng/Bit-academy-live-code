@@ -9,7 +9,7 @@
 <h1>파일 업로드 예제</h1>
 <form method="post" 
 	  action="upload" 
-	  enctype="multipart/form-data">
+	  enctype="multipart/form-data">	<!-- encryption 꼭 적어주자 -->
 
 	<label>email:</label>
 	<input type="text" name="email" value="kickscar@gmail.com">

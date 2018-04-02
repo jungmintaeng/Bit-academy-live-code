@@ -16,7 +16,7 @@
 
 	<context:annotation-config />
 	<context:component-scan base-package="com.example.fileupload" />
-
+	
 	<!-- 뷰 리졸버 (bean 설정) -->
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -26,6 +26,9 @@
 		<property name="suffix" value=".jsp" />
 		<property name="order" value="1" />
 	</bean>
+	
+	<!-- resource mapping -->
+   <mvc:resources location="file:/uploads/" mapping="/uploads/**" />
 
 	<!-- 멀티파트 리졸버 -->
 	<bean id="multipartResolver"
@@ -41,7 +44,4 @@
 		<property name="defaultEncoding" value="utf-8" />
 
 	</bean>
-
-
-
 </beans>
